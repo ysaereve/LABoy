@@ -1,1 +1,1 @@
-# LABoy
+# LABoy - Linear Algebra Boy
