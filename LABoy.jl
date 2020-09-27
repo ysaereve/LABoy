@@ -34,7 +34,7 @@ end
 
 # ╔═╡ 9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
 md"""
-# 線性代數 + Julia + $$\LaTeX$$ 的學習筆記 
+# 線性代數 + Julia + $$\LaTeX$$ + GitHub 的學習筆記 
 (GitHub Edition)
 
 以如下線性代數課程為主軸學習：
@@ -230,10 +230,14 @@ md"""
 
 [List of mathematical symbols - Wikiwand](https://www.wikiwand.com/en/List_of_mathematical_symbols)
 
+### GitHub
+
+[Hello World · GitHub Guides](https://guides.github.com/activities/hello-world/)
+
 """
 
 # ╔═╡ Cell order:
-# ╟─9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
+# ╠═9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
 # ╟─a40a1be4-ff9c-11ea-33d3-8bcf3b73e930
 # ╟─71136776-fff2-11ea-0eb6-47a04c1c77d6
 # ╟─a156894a-ffd4-11ea-1e22-29fb46b20097
@@ -259,4 +263,4 @@ md"""
 # ╠═70803966-ff9c-11ea-0a8a-d7860f4f87c0
 # ╠═6a110912-0009-11eb-0a73-0b2e2ec0b634
 # ╠═4b8f75e0-000a-11eb-175b-d7a9102f65ca
-# ╟─770ab5ac-fff8-11ea-1ed1-87b0ae3aca70
+# ╠═770ab5ac-fff8-11ea-1ed1-87b0ae3aca70
