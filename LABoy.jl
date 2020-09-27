@@ -37,13 +37,18 @@ md"""
 # 線性代數 + Julia + $$\LaTeX$$ + GitHub 的學習筆記 
 (GitHub Edition)
 
-以如下線性代數課程為主軸學習：
+整個過程將以如下「線性代數」課程為主軸學習：
 
-線性代數 台灣大學電機系 蘇柏青
+### 線性代數 台灣大學電機系 蘇柏青
 
 本課程是線性代數的入門課程。線性代數係以「向量空間」(Vector Space)為核心概念之數學工具，擁有極廣泛之應用，非常值得理工商管等科系大學部同學深入修習，作為日後專業應用之基礎。   
 
 課程來源：[http://ocw.aca.ntu.edu.tw/ntu-ocw/index.php/ocw/cou/102S207/2](http://ocw.aca.ntu.edu.tw/ntu-ocw/index.php/ocw/cou/102S207/2)
+"""
+
+# ╔═╡ 88ab1fb0-007d-11eb-17f6-a92c43670681
+md"""
+### 目前進度： 單元 3．Gaussian Elimination
 """
 
 # ╔═╡ a40a1be4-ff9c-11ea-33d3-8bcf3b73e930
@@ -203,12 +208,24 @@ let
 	A \ b
 end
 
+# ╔═╡ ecfe3ef0-007a-11eb-3efb-7740876167a8
+md"""
+## 單元 3．Gaussian Elimination
+
+實作參考：
+
+[Gaussian-elimination.pdf](http://web.mit.edu/18.06/www/Spring17/Gaussian-elimination.pdf)
+
+[Numerical Analysis by Julia Series 1 — Gauss Elimination | by Treee July | Medium]
+(https://medium.com/@julytreee/numerical-analysis-by-julia-series-1-gauss-elimination-68e902a43c7e)
+"""
+
 # ╔═╡ 770ab5ac-fff8-11ea-1ed1-87b0ae3aca70
 md"""
 ## 參考資料
 ### Linear Algebra
 
-[線性代數 - 臺大開放式課程 (NTU OpenCourseWare)](http://ocw.aca.ntu.edu.tw/ntu-ocw/index.php/ocw/cou/102S207/3)
+[ ] [線性代數 - 臺大開放式課程 (NTU OpenCourseWare)](http://ocw.aca.ntu.edu.tw/ntu-ocw/index.php/ocw/cou/102S207/3)
 
 ### Julia
 
@@ -232,12 +249,13 @@ md"""
 
 ### GitHub
 
-[Hello World · GitHub Guides](https://guides.github.com/activities/hello-world/)
+[ ] [Hello World · GitHub Guides](https://guides.github.com/activities/hello-world/)
 
 """
 
 # ╔═╡ Cell order:
 # ╠═9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
+# ╠═88ab1fb0-007d-11eb-17f6-a92c43670681
 # ╟─a40a1be4-ff9c-11ea-33d3-8bcf3b73e930
 # ╟─71136776-fff2-11ea-0eb6-47a04c1c77d6
 # ╟─a156894a-ffd4-11ea-1e22-29fb46b20097
@@ -259,8 +277,9 @@ md"""
 # ╟─42f11192-ffff-11ea-34ca-81545f4b5374
 # ╠═cb2c5e54-ffff-11ea-3e4e-a349d0a09341
 # ╟─afcd29d0-ff9c-11ea-09bf-e5a0ed087c42
-# ╠═8c300b8a-ffd5-11ea-3ec9-27ccc82cea6e
+# ╟─8c300b8a-ffd5-11ea-3ec9-27ccc82cea6e
 # ╠═70803966-ff9c-11ea-0a8a-d7860f4f87c0
-# ╠═6a110912-0009-11eb-0a73-0b2e2ec0b634
+# ╟─6a110912-0009-11eb-0a73-0b2e2ec0b634
 # ╠═4b8f75e0-000a-11eb-175b-d7a9102f65ca
+# ╠═ecfe3ef0-007a-11eb-3efb-7740876167a8
 # ╠═770ab5ac-fff8-11ea-1ed1-87b0ae3aca70
