@@ -34,7 +34,8 @@ end
 
 # ╔═╡ 9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
 md"""
-# 線性代數 + Julia + $$\LaTeX$$ 的學習筆記
+# 線性代數 + Julia + $$\LaTeX$$ 的學習筆記 
+(GitHub Edition)
 
 以如下線性代數課程為主軸學習：
 
