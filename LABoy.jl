@@ -4,51 +4,69 @@
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ cb2c5e54-ffff-11ea-3e4e-a349d0a09341
+# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
+macro bind(def, element)
+    quote
+        local el = $(esc(element))
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
+        el
+    end
+end
+
+# ╔═╡ 0053bace-00d4-11eb-1072-cbc1284550c5
+# 環境設定
 begin
+	using Printf
+	using Dates
+	using PlutoUI
 	using Plots
-	# p0 Population in year 0
-	let 
-		A=[0.85 0.03; 0.15 0.97]
-		#=
-		p0=[500; 700]
-		p1=A*p0
-		p2=A*(p1)
-		p3=A*(p2)
-		p4=A*(p3)
-		p5=A*(p4)
-		x=0:5
-		Y=hcat(p0, p1, p2, p3, p4, p5)
-		plot(x, Y', title = "Population", label = ["City" "Suburban"])
-		=#
-		p=[1200; 000]
-		x=30
-		Y=p
-		for i in 1:x
-			p=A*p
-			Y=hcat(Y, p)
-		end
-		plot(0:x, Y', title = "Population Trend", label = ["City" "Suburban"])
-	end
+
+	_date_=today()
+	md"""
+	### 目前進度： 單元 3．Gaussian Elimination <<<
+	Date: $_date_
+	"""
 end
 
 # ╔═╡ 9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
 md"""
-# 線性代數 + Julia + $$\LaTeX$$ + GitHub 的學習筆記 
-(GitHub Edition)
+# 線性代數 + Julia + $$\LaTeX$$ 的學習筆記 
+Date: $_date_
 
-整個過程將以如下「線性代數」課程為主軸學習：
+整個學習過程將以如下「線性代數」課程為主軸學習：
 
 ### 線性代數 台灣大學電機系 蘇柏青
 
 本課程是線性代數的入門課程。線性代數係以「向量空間」(Vector Space)為核心概念之數學工具，擁有極廣泛之應用，非常值得理工商管等科系大學部同學深入修習，作為日後專業應用之基礎。   
 
-課程來源：[http://ocw.aca.ntu.edu.tw/ntu-ocw/index.php/ocw/cou/102S207/2](http://ocw.aca.ntu.edu.tw/ntu-ocw/index.php/ocw/cou/102S207/2)
+課程來源：[http://ocw.aca.ntu.edu.tw/ntu-ocw/index.php/ocw/cou/102S207](http://ocw.aca.ntu.edu.tw/ntu-ocw/index.php/ocw/cou/102S207)
+
+## 學習目標
+如下為幾個學習的子目標
+
+### 學科
+- 線性代數 - 
+
+### 工具
+
+- Julia 
+- Pluto
+- LaTeX
+- Markdown
+
+### 服務
+- GitHub - 學習使用 GitHub 服務，並記錄學習歷程及分享學習內容。
 """
 
-# ╔═╡ 88ab1fb0-007d-11eb-17f6-a92c43670681
-md"""
-### 目前進度： 單元 3．Gaussian Elimination
+# ╔═╡ c4b94650-026a-11eb-3526-f39fc9a07563
+
+
+# ╔═╡ cb144730-026e-11eb-088b-db01b40d6da4
+
+
+# ╔═╡ 55153d26-00d1-11eb-016d-9b1def7d4644
+html"""
+<hr>
 """
 
 # ╔═╡ a40a1be4-ff9c-11ea-33d3-8bcf3b73e930
@@ -128,7 +146,8 @@ $$v_i$$
 # ╔═╡ 47e73308-fff9-11ea-2cee-7f050938fe19
 md"""
 ### Linear Combination
-A $$\textcolor{red}{linear\; combination}$$ of vectors $$\textbf{u}_1,\textbf{u}_2,\dots,\textbf{u}_k$$ is a vector of the form
+A $$\textcolor{red}{linear\;combination}\;of\;vectors \; 
+$$\textbf{u}_1,\textbf{u}_2,\dots,\textbf{u}_k$$ is a vector of the form
 
 $$c_1\textbf{u}_1+c_2\textbf{u}_2+\dots+c_k\textbf{u}_k$$
 
@@ -171,6 +190,52 @@ md"""
 $$A=\begin{bmatrix} 0.85 & 0.03 \\ 0.15 & 0.97 \end{bmatrix}$$
 """
 
+# ╔═╡ 988b781e-026f-11eb-02b7-8d2de841d478
+begin
+	u01xslider = @bind u01x Slider(1:100; default=40, show_value=true)
+	u01cslider = @bind u01c Slider(0:1200; default=1200, show_value=true)
+	u01sslider = @bind u01s Slider(0:1200; default=0, show_value=true)
+	md"""
+	Slide to set number of **years**: $(u01xslider) 
+	
+	Slide to set population of **city**: $(u01cslider)
+	
+	Slide to set population of **suburban**: $(u01sslider)
+	"""
+end
+
+# ╔═╡ cb2c5e54-ffff-11ea-3e4e-a349d0a09341
+let 
+	x=u01x # Number of Years (x)
+	pc=u01c # Population of City
+	ps=u01s # Population of Suburban
+	A=[0.85 0.03; 0.15 0.97]
+	#=
+	# p0 Population in year 0
+	p0=[500; 700]
+	p1=A*p0
+	p2=A*(p1)
+	p3=A*(p2)
+	p4=A*(p3)
+	p5=A*(p4)
+	x=0:5
+	Y=hcat(p0, p1, p2, p3, p4, p5)
+	plot(x, Y', title = "Population", label = ["City" "Suburban"])
+	=#
+	p=[pc; ps]
+	Y=p
+	for i in 1:x
+		p=A*p
+		Y=hcat(Y, p)
+	end
+	plot(0:x, Y', title = "Population Trend", label = ["City" "Suburban"])
+end
+
+# ╔═╡ 67ed416e-00d1-11eb-29cc-23eaa30c3446
+html"""
+<hr>
+"""
+
 # ╔═╡ afcd29d0-ff9c-11ea-09bf-e5a0ed087c42
 md"## 單元 2．System of Linear Equations"
 
@@ -208,6 +273,11 @@ let
 	A \ b
 end
 
+# ╔═╡ 1f9799ea-00d2-11eb-1b94-d7d3056a2c41
+html"""
+<hr>
+"""
+
 # ╔═╡ ecfe3ef0-007a-11eb-3efb-7740876167a8
 md"""
 ## 單元 3．Gaussian Elimination
@@ -218,6 +288,73 @@ md"""
 
 [Numerical Analysis by Julia Series 1 — Gauss Elimination | by Treee July | Medium]
 (https://medium.com/@julytreee/numerical-analysis-by-julia-series-1-gauss-elimination-68e902a43c7e)
+"""
+
+# ╔═╡ b76720a6-00d2-11eb-19ae-d59e7204a005
+md"""
+對列及行的參照：
+"""
+
+# ╔═╡ 0c9dd736-00d8-11eb-077a-67cf34db152d
+let
+	A=[ 1 2 3; 4 5 6; 7 8 9]
+end
+
+# ╔═╡ 2fa8b248-00d6-11eb-0f85-871512ef16d2
+let
+	o=[]
+	# Matrix
+	A=[ 1 2 3; 4 5 6; 7 8 9]
+	push!(o, @sprintf("A: %s", A))
+	# Elements
+	push!(o, @sprintf("A[1, 1]: %s", A[1, 1]))
+	push!(o, @sprintf("A[end, end]: %s", A[end, end]))
+	# Row
+	r1=A[1,:]
+	push!(o, @sprintf("r1: %s", r1))
+	∑Ai=A[1,:]+A[2,:]+A[3,:]
+	push!(o, @sprintf("∑Ai: %s", ∑Ai))
+	# Column
+	c1=A[:,1]
+	push!(o, @sprintf("c1: %s", c1))
+	∑Aj=A[:,1]+A[:,2]+A[:,3]
+	push!(o, @sprintf("∑Aj: %s", ∑Aj))
+	# with_terminal(dump, o)
+end
+
+# ╔═╡ 479e95e2-0274-11eb-2c2a-993ba9119fba
+let
+	with_terminal() do
+		# Get Current Time
+		command=`date`
+		run(command)
+		# Matrix
+		A=[ 1 2 3; 4 5 6; 7 8 9]
+		println("A:"); dump(A)
+		# Elements
+		println("A[1, 1]:"); dump(A[1, 1])
+		println("A[end, end]:"); dump(A[end, end])
+		# Row
+		r1=A[1,:]
+		println("r1:");	dump(r1)
+		∑Ai=A[1,:]+A[2,:]+A[3,:]
+		println("∑Ai:"); dump(∑Ai)
+		# Column
+		c1=A[:,1]
+		println("c1:");	dump(c1)
+		∑Aj=A[:,1]+A[:,2]+A[:,3]
+		println("∑Aj:"); dump(∑Aj)
+	end 
+end
+
+# ╔═╡ 97f12ddc-00cf-11eb-173d-47a7931a9a08
+md"""
+### <<<
+"""
+
+# ╔═╡ 7dbac3ec-00d1-11eb-2c17-3bab40ffaa2e
+html"""
+<hr>
 """
 
 # ╔═╡ 770ab5ac-fff8-11ea-1ed1-87b0ae3aca70
@@ -237,8 +374,8 @@ md"""
 
 [ ] [18.S191 Introduction to Computational Thinking](https://computationalthinking.mit.edu/Fall20/)
 
-### Markdown
-[Markdown Cheatsheet · adam-p/markdown-here Wiki](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+### Pluto
+[Docstrings · PlutoUI.jl](https://juliahub.com/docs/PlutoUI/abXFp/0.6.3/autodocs/)
 
 ### $$\LaTeX$$
 [LaTeX - Mathematical Python](https://www.math.ubc.ca/~pwalls/math-python/jupyter/latex/)
@@ -247,15 +384,22 @@ md"""
 
 [List of mathematical symbols - Wikiwand](https://www.wikiwand.com/en/List_of_mathematical_symbols)
 
+### Markdown
+[Markdown Cheatsheet · adam-p/markdown-here Wiki](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+
+[Markdown · The Julia Language](https://docs.julialang.org/en/v1/stdlib/Markdown/)
+
 ### GitHub
 
 [ ] [Hello World · GitHub Guides](https://guides.github.com/activities/hello-world/)
-
 """
 
 # ╔═╡ Cell order:
 # ╠═9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
-# ╠═88ab1fb0-007d-11eb-17f6-a92c43670681
+# ╠═c4b94650-026a-11eb-3526-f39fc9a07563
+# ╠═cb144730-026e-11eb-088b-db01b40d6da4
+# ╠═0053bace-00d4-11eb-1072-cbc1284550c5
+# ╟─55153d26-00d1-11eb-016d-9b1def7d4644
 # ╟─a40a1be4-ff9c-11ea-33d3-8bcf3b73e930
 # ╟─71136776-fff2-11ea-0eb6-47a04c1c77d6
 # ╟─a156894a-ffd4-11ea-1e22-29fb46b20097
@@ -275,11 +419,20 @@ md"""
 # ╠═c497553e-fffb-11ea-3559-e59103e843e2
 # ╟─aff2680a-fffe-11ea-0494-1d349105eff0
 # ╟─42f11192-ffff-11ea-34ca-81545f4b5374
+# ╠═988b781e-026f-11eb-02b7-8d2de841d478
 # ╠═cb2c5e54-ffff-11ea-3e4e-a349d0a09341
+# ╟─67ed416e-00d1-11eb-29cc-23eaa30c3446
 # ╟─afcd29d0-ff9c-11ea-09bf-e5a0ed087c42
 # ╟─8c300b8a-ffd5-11ea-3ec9-27ccc82cea6e
 # ╠═70803966-ff9c-11ea-0a8a-d7860f4f87c0
 # ╟─6a110912-0009-11eb-0a73-0b2e2ec0b634
 # ╠═4b8f75e0-000a-11eb-175b-d7a9102f65ca
-# ╠═ecfe3ef0-007a-11eb-3efb-7740876167a8
+# ╟─1f9799ea-00d2-11eb-1b94-d7d3056a2c41
+# ╟─ecfe3ef0-007a-11eb-3efb-7740876167a8
+# ╟─b76720a6-00d2-11eb-19ae-d59e7204a005
+# ╠═0c9dd736-00d8-11eb-077a-67cf34db152d
+# ╠═2fa8b248-00d6-11eb-0f85-871512ef16d2
+# ╠═479e95e2-0274-11eb-2c2a-993ba9119fba
+# ╠═97f12ddc-00cf-11eb-173d-47a7931a9a08
+# ╟─7dbac3ec-00d1-11eb-2c17-3bab40ffaa2e
 # ╠═770ab5ac-fff8-11ea-1ed1-87b0ae3aca70
