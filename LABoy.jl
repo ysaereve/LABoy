@@ -20,10 +20,11 @@ begin
 	using Dates
 	using PlutoUI
 	using Plots
+	using LinearAlgebra
 
 	_date_=today()
 	md"""
-	### 目前進度： 單元 4．The language of set theory <<<
+	### 目前進度：單元 6．Linear Dependence and Linear Independence <<<
 	Date: $_date_
 	"""
 end
@@ -250,9 +251,14 @@ $$x=A\;\backslash\;b$$
 # ╔═╡ 70803966-ff9c-11ea-0a8a-d7860f4f87c0
 # Solve System of Linear Equations
 let
-	A=[1 -2 -1; 3 -6 -5; 2 -1 1]
-	b=[3; 3; 0]
-	A \ b
+	with_terminal() do
+		A=[1 -2 -1; 3 -6 -5; 2 -1 1]
+		b=[3; 3; 0]
+		x=A \ b
+		println(x)
+		println(A*x)
+		println(A*x == b)
+	end
 end
 
 # ╔═╡ 6a110912-0009-11eb-0a73-0b2e2ec0b634
@@ -263,9 +269,14 @@ md"""
 # ╔═╡ 4b8f75e0-000a-11eb-175b-d7a9102f65ca
 # Solve System of Linear Equations
 let 
-	A=[1 -3 0 2 0; 0 0 1 6 0; 0 0 0 0 1; 0 0 0 0 0]
-	b=[7; 9; 2; 0]
-	A \ b
+	with_terminal() do
+		A=[1 -3 0 2 0; 0 0 1 6 0; 0 0 0 0 1; 0 0 0 0 0]
+		b=[7; 9; 2; 0]
+		x=A \ b
+		println(x)
+		println(A*x)
+		println(A*x == b)
+	end
 end
 
 # ╔═╡ 1f9799ea-00d2-11eb-1b94-d7d3056a2c41
@@ -394,24 +405,6 @@ let
 	"""
 end
 
-# ╔═╡ ea071ad0-03c9-11eb-365a-fd1279b42c6c
-
-
-# ╔═╡ e9e672a8-03c9-11eb-335c-015d98e0f9de
-
-
-# ╔═╡ e9c24694-03c9-11eb-0328-a3a6cd233e66
-
-
-# ╔═╡ e9a3575c-03c9-11eb-205e-5d1925818490
-
-
-# ╔═╡ e99f04f4-03c9-11eb-21e0-e1496b263316
-
-
-# ╔═╡ e9556560-03c9-11eb-2970-4fcebd1a3ad6
-
-
 # ╔═╡ f7de8296-0393-11eb-0782-57e9272ad999
 md"""
 ## 單元 4．The language of set theory
@@ -446,6 +439,103 @@ let
 	end
 end
 
+# ╔═╡ 0445c5ba-03cb-11eb-2093-b71bae438a19
+md"""
+## 單元 5．Span of a Set of Vectors
+"""
+
+# ╔═╡ 698fc53a-03d5-11eb-39b7-a776fabae2f2
+md"""
+實作參考：
+
+[Linear Algebra – Quantitative Economics with Julia](https://julia.quantecon.org/tools_and_techniques/linear_algebra.html)
+"""
+
+# ╔═╡ 408f674e-03d5-11eb-3dc8-ed1addf002be
+let
+	x_vals = [0 0 0 ; 2 -3 -4]
+	y_vals = [0 0 0 ; 4 3 -3.5]
+	
+	plot(x_vals, y_vals, arrow = true, color = :blue,
+	     legend = :none, xlims = (-5, 5), ylims = (-5, 5),
+	     annotations = [(2.2, 4.4, "[2, 4]"),
+	                    (-3.3, 3.3, "[-3, 3]"),
+	                    (-4.4, -3.85, "[-4, -3.5]")],
+	     xticks = -5:1:5, yticks = -5:1:5,
+	     framestyle = :origin)
+end
+
+# ╔═╡ 73360416-03da-11eb-1721-cf76aa462151
+begin
+	u05islider = @bind u05i Slider(1:3; default=1, show_value=true)
+	u05jslider = @bind u05j Slider(1:3; default=3, show_value=true)
+	md"""
+	Slide to set **i**: $(u05islider) 
+	
+	Slide to set **j**: $(u05jslider) 
+	"""
+end
+
+# ╔═╡ ac04f844-03d8-11eb-2db2-dbc19b343325
+let
+	i=u05i
+	j=u05j
+	# fixed linear function, to generate a plane
+	f(x, y) = 0.2x + 0.1y
+	
+	# lines to vectors
+	x_vec = [0 0 0; 3 3 -5]
+	y_vec = [0 0 0; 4 -4 5]
+	z_vec = [0 0 0; f(3, 4) f(3, -4) f(-5,5)]
+	color = [:blue :green :red]
+	
+	# draw the plane
+	n = 20
+	grid = range(-5, 5, length = n)
+	z2 = [ f(grid[row], grid[col]) for row in 1:n, col in 1:n ]
+	wireframe(grid, grid, z2, fill = :blues, gridalpha =1 )
+	plot!(x_vec[:, i:j], y_vec[:, i:j], z_vec[:, i:j], color = color[:,i:j], linewidth = 3, labels = "", colorbar = false)
+end
+
+# ╔═╡ 19ea5d5c-03d9-11eb-085b-3d0a811bbc9d
+let
+	i=u05i
+	j=u05j
+	# fixed linear function, to generate a plane
+	f(x, y) = 0.2x + 0.1y
+	z_vec = [0 0 0; f(3, 4) f(3, -4) f(-5, 5)]
+	z_vec[:, i:j]
+end
+
+# ╔═╡ 8133c7e0-03d8-11eb-0697-afe2082ed481
+md"""
+### 單元 6．Linear Dependence and Linear Independence
+"""
+
+# ╔═╡ 82e1b674-03df-11eb-26e4-6f09a0a832d8
+let
+	with_terminal() do
+		A=[1 2 -1; -1 1 -8; 2 -1 13; 1 -1 8] 
+		b=[0; 1; -2; 1]
+		x=A \ b
+		println(x)
+		println(A*x)
+		println(A*x == b)
+	end
+end
+
+# ╔═╡ 55de62fc-03e8-11eb-2ade-6500eacc11c8
+let
+	with_terminal() do
+		A=[1 -4 2 -1 2; 2 -8 3 2 1]
+		b=[0; 0]
+		x=A \b 
+		println(x)
+		println(A*x)
+		println(A*x == b)
+	end
+end
+
 # ╔═╡ 97f12ddc-00cf-11eb-173d-47a7931a9a08
 md"""
 ### <<<
@@ -461,49 +551,71 @@ md"""
 ## 參考資料
 ### Linear Algebra
 
-[ ] [線性代數 - 臺大開放式課程 (NTU OpenCourseWare)](http://ocw.aca.ntu.edu.tw/ntu-ocw/index.php/ocw/cou/102S207/3)
+[ ] [線性代數 - 臺大開放式課程 (NTU OpenCourseWare)]
+(http://ocw.aca.ntu.edu.tw/ntu-ocw/index.php/ocw/cou/102S207/3)
+
+[ ] [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares]
+(http://vmls-book.stanford.edu/)
+> [Julia language companion](http://vmls-book.stanford.edu/vmls-julia-companion.pdf)
 
 ### Julia
 
-[ ] [Introduction to Julia](https://juliaacademy.com/courses/enrolled/375479)
+[ ] [Introduction to Julia]
+(https://juliaacademy.com/courses/enrolled/375479)
 
-[ ] Advanced topics
+> [ ] Advanced topics
 
-[ ] [Julia for Data Science](https://juliaacademy.com/courses/enrolled/937702)
+[ ] [Julia for Data Science]
+(https://juliaacademy.com/courses/enrolled/937702)
 
-[ ] [18.S191 Introduction to Computational Thinking](https://computationalthinking.mit.edu/Fall20/)
+[ ] [18.S191 Introduction to Computational Thinking]
+(https://computationalthinking.mit.edu/Fall20/)
 
-[Unicode Input · The Julia Language](https://docs.julialang.org/en/v1/manual/unicode-input/)
+[Linear Algebra – Quantitative Economics with Julia]
+(https://julia.quantecon.org/tools_and_techniques/linear_algebra.html)
+
+> [QuantEcon.cheatsheet/julia-cheatsheet.pdf](https://github.com/QuantEcon/QuantEcon.cheatsheet/blob/master/julia/julia-cheatsheet.pdf)
+
+[Unicode Input · The Julia Language]
+(https://docs.julialang.org/en/v1/manual/unicode-input/)
 
 ### Pluto
 [Docstrings · PlutoUI.jl](https://juliahub.com/docs/PlutoUI/abXFp/0.6.3/autodocs/)
 
 ### $$\LaTeX$$
 
-[LaTeX syntax · Documenter.jl](https://juliadocs.github.io/Documenter.jl/v0.7/man/latex.html)
+[LaTeX syntax · Documenter.jl]
+(https://juliadocs.github.io/Documenter.jl/v0.7/man/latex.html)
 
-[LaTeX - Mathematical Python](https://www.math.ubc.ca/~pwalls/math-python/jupyter/latex/)
+[LaTeX - Mathematical Python]
+(https://www.math.ubc.ca/~pwalls/math-python/jupyter/latex/)
 
-[LaTeX help 1.1 - Table of Contents](http://www.emerson.emory.edu/services/latex/latex_toc.html)
+[LaTeX help 1.1 - Table of Contents]
+(http://www.emerson.emory.edu/services/latex/latex_toc.html)
 
-[List of mathematical symbols - Wikiwand](https://www.wikiwand.com/en/List_of_mathematical_symbols)
+[List of mathematical symbols - Wikiwand]
+(https://www.wikiwand.com/en/List_of_mathematical_symbols)
 
 ### Markdown
-[Markdown Cheatsheet · adam-p/markdown-here Wiki](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+[Markdown Cheatsheet · adam-p/markdown-here Wiki]
+(https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
-[Markdown · The Julia Language](https://docs.julialang.org/en/v1/stdlib/Markdown/)
+[Markdown · The Julia Language]
+(https://docs.julialang.org/en/v1/stdlib/Markdown/)
 
 ### GitHub
 
-[ ] [Hello World · GitHub Guides](https://guides.github.com/activities/hello-world/)
+[ ] [Hello World · GitHub Guides]
+(https://guides.github.com/activities/hello-world/)
 
 ### 其他
-[三度辭典網 > 術語中英雙語詞典](https://www.3du.tw/term/)
+[三度辭典網 > 術語中英雙語詞典]
+(https://www.3du.tw/term/)
 """
 
 # ╔═╡ Cell order:
 # ╠═9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
-# ╟─0053bace-00d4-11eb-1072-cbc1284550c5
+# ╠═0053bace-00d4-11eb-1072-cbc1284550c5
 # ╟─55153d26-00d1-11eb-016d-9b1def7d4644
 # ╟─a40a1be4-ff9c-11ea-33d3-8bcf3b73e930
 # ╟─71136776-fff2-11ea-0eb6-47a04c1c77d6
@@ -540,15 +652,18 @@ md"""
 # ╠═479e95e2-0274-11eb-2c2a-993ba9119fba
 # ╠═816cc338-03a1-11eb-2872-c7643faab770
 # ╠═ee3ed802-03a3-11eb-025c-5bee178511af
-# ╠═ea071ad0-03c9-11eb-365a-fd1279b42c6c
-# ╠═e9e672a8-03c9-11eb-335c-015d98e0f9de
-# ╠═e9c24694-03c9-11eb-0328-a3a6cd233e66
-# ╠═e9a3575c-03c9-11eb-205e-5d1925818490
-# ╠═e99f04f4-03c9-11eb-21e0-e1496b263316
-# ╠═e9556560-03c9-11eb-2970-4fcebd1a3ad6
 # ╟─f7de8296-0393-11eb-0782-57e9272ad999
 # ╟─35ec879e-03ae-11eb-15ce-016ae8a89168
 # ╠═cfaeab08-03b2-11eb-3930-ddb92e799789
+# ╠═0445c5ba-03cb-11eb-2093-b71bae438a19
+# ╠═698fc53a-03d5-11eb-39b7-a776fabae2f2
+# ╠═408f674e-03d5-11eb-3dc8-ed1addf002be
+# ╠═73360416-03da-11eb-1721-cf76aa462151
+# ╠═ac04f844-03d8-11eb-2db2-dbc19b343325
+# ╠═19ea5d5c-03d9-11eb-085b-3d0a811bbc9d
+# ╟─8133c7e0-03d8-11eb-0697-afe2082ed481
+# ╠═82e1b674-03df-11eb-26e4-6f09a0a832d8
+# ╠═55de62fc-03e8-11eb-2ade-6500eacc11c8
 # ╠═97f12ddc-00cf-11eb-173d-47a7931a9a08
 # ╟─7dbac3ec-00d1-11eb-2c17-3bab40ffaa2e
 # ╠═770ab5ac-fff8-11ea-1ed1-87b0ae3aca70
