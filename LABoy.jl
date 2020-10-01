@@ -23,7 +23,7 @@ begin
 
 	_date_=today()
 	md"""
-	### 目前進度： 單元 3．Gaussian Elimination <<<
+	### 目前進度： 單元 4．The language of set theory <<<
 	Date: $_date_
 	"""
 end
@@ -42,27 +42,21 @@ Date: $_date_
 課程來源：[http://ocw.aca.ntu.edu.tw/ntu-ocw/index.php/ocw/cou/102S207](http://ocw.aca.ntu.edu.tw/ntu-ocw/index.php/ocw/cou/102S207)
 
 ## 學習目標
-如下為幾個學習的子目標
+如下為幾個學習的子目標：
 
 ### 學科
-- 線性代數 - 
+- 線性代數 - 重新學習線性代數，了解重要概念的中文及英文詞𢑥及應用。
 
 ### 工具
 
-- Julia 
-- Pluto
-- LaTeX
-- Markdown
+- Julia - 深入學習，了解重要套件的應用及使用。
+- Pluto - 隨之成長，作為撰寫學習記錄的工具。
+- LaTeX - 隨緣學習，作為撰寫學習記錄的工具。
+- Markdown - 隨緣學習，作為撰寫學習記錄的工具。
 
 ### 服務
 - GitHub - 學習使用 GitHub 服務，並記錄學習歷程及分享學習內容。
 """
-
-# ╔═╡ c4b94650-026a-11eb-3526-f39fc9a07563
-
-
-# ╔═╡ cb144730-026e-11eb-088b-db01b40d6da4
-
 
 # ╔═╡ 55153d26-00d1-11eb-016d-9b1def7d4644
 html"""
@@ -258,7 +252,7 @@ $$x=A\;\backslash\;b$$
 let
 	A=[1 -2 -1; 3 -6 -5; 2 -1 1]
 	b=[3; 3; 0]
-	A \ b	
+	A \ b
 end
 
 # ╔═╡ 6a110912-0009-11eb-0a73-0b2e2ec0b634
@@ -267,6 +261,7 @@ md"""
 """
 
 # ╔═╡ 4b8f75e0-000a-11eb-175b-d7a9102f65ca
+# Solve System of Linear Equations
 let 
 	A=[1 -3 0 2 0; 0 0 1 6 0; 0 0 0 0 1; 0 0 0 0 0]
 	b=[7; 9; 2; 0]
@@ -319,38 +314,137 @@ let
 	push!(o, @sprintf("c1: %s", c1))
 	∑Aj=A[:,1]+A[:,2]+A[:,3]
 	push!(o, @sprintf("∑Aj: %s", ∑Aj))
-	# with_terminal(dump, o)
+	with_terminal(dump, o)
 end
 
 # ╔═╡ 479e95e2-0274-11eb-2c2a-993ba9119fba
 let
 	with_terminal() do
+		println("👍 選定之輸出方案： 1) 容易以 do ... end 區塊包裝 3) 轉貼程式碼到他處不用修改\n")
 		# Get Current Time
 		command=`date`
 		run(command)
 		# Matrix
 		A=[ 1 2 3; 4 5 6; 7 8 9]
-		println("A:"); dump(A)
+		print("A: "); dump(A)
 		# Elements
-		println("A[1, 1]:"); dump(A[1, 1])
-		println("A[end, end]:"); dump(A[end, end])
+		print("A[1, 1]: "); dump(A[1, 1])
+		print("A[end, end]: "); dump(A[end, end])
 		# Row
 		r1=A[1,:]
-		println("r1:");	dump(r1)
+		print("r1: ");	dump(r1)
 		∑Ai=A[1,:]+A[2,:]+A[3,:]
-		println("∑Ai:"); dump(∑Ai)
+		print("∑Ai: "); dump(∑Ai)
 		# Column
 		c1=A[:,1]
-		println("c1:");	dump(c1)
+		print("c1: ");	dump(c1)
 		∑Aj=A[:,1]+A[:,2]+A[:,3]
-		println("∑Aj:"); dump(∑Aj)
+		print("∑Aj: "); dump(∑Aj)
+		println()
+		run(`cal -h`)
 	end 
 end
+
+# ╔═╡ 816cc338-03a1-11eb-2872-c7643faab770
+let
+	Text() do io
+		# Matrix
+		A=[ 1 2 3; 4 5 6; 7 8 9]
+		print(io, "A: "); dump(io, A)
+		# Elements
+		print(io, "A[1, 1]: "); dump(io, A[1, 1])
+		print(io, "A[end, end]: "); dump(io, A[end, end])
+		# Row
+		r1=A[1,:]
+		print(io, "r1: ");	dump(io, r1)
+		∑Ai=A[1,:]+A[2,:]+A[3,:]
+		print(io, "∑Ai: "); dump(io, ∑Ai)
+		# Column
+		c1=A[:,1]
+		print(io, "c1: ");	dump(io, c1)
+		∑Aj=A[:,1]+A[:,2]+A[:,3]
+		print(io, "∑Aj: "); dump(io, ∑Aj)
+	end
+end
+
+# ╔═╡ ee3ed802-03a3-11eb-025c-5bee178511af
+let
+		# Matrix
+		A=[ 1 2 3; 4 5 6; 7 8 9]
+		# Row
+		r1=A[1,:]
+		∑Ai=A[1,:]+A[2,:]+A[3,:]
+		# Column
+		c1=A[:,1]
+		∑Aj=A[:,1]+A[:,2]+A[:,3]
+	md"""
+	A: $(Text(A))
+	
+	A[1, 1]: $(Text(A[1, 1]))
+	
+	A[end, end]: $(Text(A[end, end]))
+
+	r1: $(Text(r1))
+
+	∑Ai: $(Text(∑Ai))
+	
+	c1: $(Text(c1))
+	
+	∑Aj: $(Text(∑Aj))
+	"""
+end
+
+# ╔═╡ ea071ad0-03c9-11eb-365a-fd1279b42c6c
+
+
+# ╔═╡ e9e672a8-03c9-11eb-335c-015d98e0f9de
+
+
+# ╔═╡ e9c24694-03c9-11eb-0328-a3a6cd233e66
+
+
+# ╔═╡ e9a3575c-03c9-11eb-205e-5d1925818490
+
+
+# ╔═╡ e99f04f4-03c9-11eb-21e0-e1496b263316
+
+
+# ╔═╡ e9556560-03c9-11eb-2970-4fcebd1a3ad6
+
 
 # ╔═╡ f7de8296-0393-11eb-0782-57e9272ad999
 md"""
 ## 單元 4．The language of set theory
 """
+
+# ╔═╡ 35ec879e-03ae-11eb-15ce-016ae8a89168
+md"""
+#### Subset
+$$Let\; S_1=\{a, b, c, d, e\},\; S_2={a, b, e}$$$$
+S_2 ⊂ S_1\;means\;$$$$ 
+∀x ∈ S_2,\:x\;is\;also ∈ S_1.$$
+"""
+
+# ╔═╡ cfaeab08-03b2-11eb-3930-ddb92e799789
+let
+	with_terminal() do
+		s1=Set(["a", "b", "c", "d", "e"])
+		println("🖐 Give Me Five, 原來集合在 Julia 裹頭是長這樣子喔！☯")
+		dump(s1)
+		println(s1)
+		s2=Set(["a", "b", "e"])
+		println(s2)
+		# subset
+		println(⊆(s2, s1))
+		# union set
+		println(∪(s1, s2))
+		# intersection set
+		println(∩(s1, s2))
+		# difference set
+		println(setdiff(s1, s2))
+		println(setdiff(s2, s1))
+	end
+end
 
 # ╔═╡ 97f12ddc-00cf-11eb-173d-47a7931a9a08
 md"""
@@ -379,10 +473,15 @@ md"""
 
 [ ] [18.S191 Introduction to Computational Thinking](https://computationalthinking.mit.edu/Fall20/)
 
+[Unicode Input · The Julia Language](https://docs.julialang.org/en/v1/manual/unicode-input/)
+
 ### Pluto
 [Docstrings · PlutoUI.jl](https://juliahub.com/docs/PlutoUI/abXFp/0.6.3/autodocs/)
 
 ### $$\LaTeX$$
+
+[LaTeX syntax · Documenter.jl](https://juliadocs.github.io/Documenter.jl/v0.7/man/latex.html)
+
 [LaTeX - Mathematical Python](https://www.math.ubc.ca/~pwalls/math-python/jupyter/latex/)
 
 [LaTeX help 1.1 - Table of Contents](http://www.emerson.emory.edu/services/latex/latex_toc.html)
@@ -397,13 +496,14 @@ md"""
 ### GitHub
 
 [ ] [Hello World · GitHub Guides](https://guides.github.com/activities/hello-world/)
+
+### 其他
+[三度辭典網 > 術語中英雙語詞典](https://www.3du.tw/term/)
 """
 
 # ╔═╡ Cell order:
 # ╠═9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
-# ╠═c4b94650-026a-11eb-3526-f39fc9a07563
-# ╠═cb144730-026e-11eb-088b-db01b40d6da4
-# ╠═0053bace-00d4-11eb-1072-cbc1284550c5
+# ╟─0053bace-00d4-11eb-1072-cbc1284550c5
 # ╟─55153d26-00d1-11eb-016d-9b1def7d4644
 # ╟─a40a1be4-ff9c-11ea-33d3-8bcf3b73e930
 # ╟─71136776-fff2-11ea-0eb6-47a04c1c77d6
@@ -438,7 +538,17 @@ md"""
 # ╠═0c9dd736-00d8-11eb-077a-67cf34db152d
 # ╠═2fa8b248-00d6-11eb-0f85-871512ef16d2
 # ╠═479e95e2-0274-11eb-2c2a-993ba9119fba
-# ╠═f7de8296-0393-11eb-0782-57e9272ad999
+# ╠═816cc338-03a1-11eb-2872-c7643faab770
+# ╠═ee3ed802-03a3-11eb-025c-5bee178511af
+# ╠═ea071ad0-03c9-11eb-365a-fd1279b42c6c
+# ╠═e9e672a8-03c9-11eb-335c-015d98e0f9de
+# ╠═e9c24694-03c9-11eb-0328-a3a6cd233e66
+# ╠═e9a3575c-03c9-11eb-205e-5d1925818490
+# ╠═e99f04f4-03c9-11eb-21e0-e1496b263316
+# ╠═e9556560-03c9-11eb-2970-4fcebd1a3ad6
+# ╟─f7de8296-0393-11eb-0782-57e9272ad999
+# ╟─35ec879e-03ae-11eb-15ce-016ae8a89168
+# ╠═cfaeab08-03b2-11eb-3930-ddb92e799789
 # ╠═97f12ddc-00cf-11eb-173d-47a7931a9a08
 # ╟─7dbac3ec-00d1-11eb-2c17-3bab40ffaa2e
 # ╠═770ab5ac-fff8-11ea-1ed1-87b0ae3aca70
