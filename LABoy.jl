@@ -20,12 +20,12 @@ begin
 	using Dates
 	using PlutoUI
 	using Plots
-	using LinearAlgebra
+	# using LinearAlgebra # Most of them are in Base
+	using RowEchelon # 單元 9．Column Correspondence Theorem
 
 	_date_=today()
-	md"""
-	### 目前進度：單元 6．Linear Dependence and Linear Independence <<<
-	Date: $_date_
+	html"""
+	<hr>
 	"""
 end
 
@@ -57,11 +57,6 @@ Date: $_date_
 
 ### 服務
 - GitHub - 學習使用 GitHub 服務，並記錄學習歷程及分享學習內容。
-"""
-
-# ╔═╡ 55153d26-00d1-11eb-016d-9b1def7d4644
-html"""
-<hr>
 """
 
 # ╔═╡ a40a1be4-ff9c-11ea-33d3-8bcf3b73e930
@@ -467,8 +462,8 @@ end
 
 # ╔═╡ 73360416-03da-11eb-1721-cf76aa462151
 begin
-	u05islider = @bind u05i Slider(1:3; default=1, show_value=true)
-	u05jslider = @bind u05j Slider(1:3; default=3, show_value=true)
+	u05islider = @bind u05i Slider(1:5; default=1, show_value=true)
+	u05jslider = @bind u05j Slider(1:5; default=5, show_value=true)
 	md"""
 	Slide to set **i**: $(u05islider) 
 	
@@ -484,27 +479,26 @@ let
 	f(x, y) = 0.2x + 0.1y
 	
 	# lines to vectors
-	x_vec = [0 0 0; 3 3 -5]
-	y_vec = [0 0 0; 4 -4 5]
-	z_vec = [0 0 0; f(3, 4) f(3, -4) f(-5,5)]
-	color = [:blue :green :red]
+	x_vec = [0 0 0 0 0; 3 3 -4 -4 3.5]
+	y_vec = [0 0 0 0 0; 4 -4 -4 4 0]
+	z_vec = [0 0 0 0 0; f(3, 4) f(3, -4) f(-4,-4) f(-4, 4) f(3.5, 0)]
+	color = [:blue :green :red :brown :cyan]
 	
 	# draw the plane
 	n = 20
 	grid = range(-5, 5, length = n)
 	z2 = [ f(grid[row], grid[col]) for row in 1:n, col in 1:n ]
-	wireframe(grid, grid, z2, fill = :blues, gridalpha =1 )
-	plot!(x_vec[:, i:j], y_vec[:, i:j], z_vec[:, i:j], color = color[:,i:j], linewidth = 3, labels = "", colorbar = false)
-end
-
-# ╔═╡ 19ea5d5c-03d9-11eb-085b-3d0a811bbc9d
-let
-	i=u05i
-	j=u05j
-	# fixed linear function, to generate a plane
-	f(x, y) = 0.2x + 0.1y
-	z_vec = [0 0 0; f(3, 4) f(3, -4) f(-5, 5)]
-	z_vec[:, i:j]
+	# wireframe(grid, grid, z2, fill = :blues, gridalpha =1 )
+	plot(grid, grid, z2, fill = :blues, gridalpha = 1, lindwidth = 0.5, seriestype = :wireframe)
+	# plot(grid, grid, z2, fill = :blues, gridalpha = 1, lindwidth = 0.5, seriestype = :surface)
+	# Dots
+	# plot!([0; 4; 4; -4; -4], [0; 4; -4; 4; -4], [-1.5; -1.5; -1.5; -1.5; -1.5], labels = "", seriestype = :scatter3d)
+	p = [ 0 0 -1.5; 4 4 -1.5; 4 -4 -1.5; -4 4 -1.5; -4 -4 -1.5]' # Transpose
+	plot!(p[1, i:j], p[2, i:j], p[3, i:j], labels = "", seriestype = :scatter3d)
+	plot!(p[1, i:j], p[2, i:j], p[3, i:j], labels = "", seriestype = :path3d)
+	# Vectors
+	plot!(x_vec[:, i:j], y_vec[:, i:j], z_vec[:, i:j], color = color[:,i:j], linewidth = 3, xlabel = "x", ylabel = "y", zlabel = "z", labels = "", colorbar = false)
+	# plot!(x_vec, y_vec, z_vec, color = color[:,i:j], linewidth = 3, xlabel = "x", ylabel = "y", zlabel = "z", labels = "", colorbar = false)
 end
 
 # ╔═╡ 8133c7e0-03d8-11eb-0697-afe2082ed481
@@ -533,6 +527,175 @@ let
 		println(x)
 		println(A*x)
 		println(A*x == b)
+	end
+end
+
+# ╔═╡ 69edd6d6-0469-11eb-1a3a-69b7f222541c
+md"""
+## 單元 7．Matrix Multiplication
+"""
+
+# ╔═╡ 71418e5a-0469-11eb-1c3a-65f8e802284d
+md"""
+### Matrix Multiplication
+$$Let\;v, x, y ∈ R^n. Suppose\;A\;and\;B\;are\;n × n\;matrices.$$
+$$x = Bv$$ 
+$$y = Ax$$
+$$\Downarrow$$
+$$y = Cv = A(Bv) = (AB)v$$
+"""
+
+# ╔═╡ c95c00b4-046b-11eb-09e0-69068c23a0e0
+let
+	with_terminal() do
+		A=[1 2; 1 1] 
+		B = [ 1 1; 1 -1]
+		dump(A * B)
+		dump(B * A)
+	end
+end
+
+# ╔═╡ a7edc48a-046e-11eb-2920-73dd6ab80b73
+md"""
+## 單元 8．Invertibility and Elmentary Matrices
+"""
+
+# ╔═╡ b6f85278-046e-11eb-25db-e71ea510fe6a
+md"""
+### Inverse
+An n × n matrix A is called invertible if there exists an n × n matrix B such
+that $$AB = BA = I_n$$. In this case, B is called an inverse of A.
+"""
+
+# ╔═╡ c42784e8-0483-11eb-2105-41108f06910e
+md"""
+$$\begin{matrix}
+\begin{align*}
+A=\begin{bmatrix} 1 & 2 \\ 3 & 5 \end{bmatrix} 
+\\
+B=\begin{bmatrix} -5 & 2 \\ 3 & -1 \end{bmatrix}
+\end{align*}
+&
+\Rightarrow 
+&
+\begin{split}
+AB=
+\begin{bmatrix} 1 & 2 \\ 3 & 5 \end{bmatrix} 
+\begin{bmatrix} -5 & 2 \\ 3 & -1 \end{bmatrix}=\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}=I_2 
+\\
+BA=
+\begin{bmatrix} -5 & 2 \\ 3 & -1 \end{bmatrix}
+\begin{bmatrix} 1 & 2 \\ 3 & 5 \end{bmatrix}=\begin{bmatrix} 1 & 0 \\ 0 & 1\end{bmatrix}=I_2
+\end{split}
+\end{matrix}$$
+"""
+
+# ╔═╡ 6a0af07c-0482-11eb-287b-8d97045e4f36
+let 
+	with_terminal() do
+		A=[1 2; 3 5]
+		B=inv(A)
+		dump(A)
+		dump(B)
+		dump(round.(B))
+		dump.(round.(A*B))
+		dump.(round.(B*A))
+	end
+end
+
+# ╔═╡ 7cadabce-0483-11eb-1a22-d7fcb40f6fe9
+md"""
+疑：為什麼只是近似的值？因為 3?
+"""
+
+# ╔═╡ 061630b8-0496-11eb-1646-137d406b7c37
+md"""
+## 單元 9．Column Correspondence Theorem
+"""
+
+# ╔═╡ d32ddc0a-0497-11eb-14e8-81331c56ebd8
+md"""
+實作參考：
+
+[blegat/RowEchelon.jl: Small package containing the rref fonction for computing the reduced row echelon form of the matrix A]
+(https://github.com/blegat/RowEchelon.jl) 
+> 可做為 module 及 RREF 計算實作參考。
+> 提供的 function 為
+> rref, rref!
+> rref_with_pivots, rref_with_pivots!, 
+"""
+
+# ╔═╡ 5f220836-049a-11eb-389c-b75fa5bb21d7
+md"""
+### Reduced Row Echelon Form (RREF)
+"""
+
+# ╔═╡ 86827bfe-049a-11eb-241c-cbbefed2bd08
+let
+	with_terminal() do
+		println("Using RREF:")
+		A=[ 1 2 -1 2 1 2; -1 -2 1 2 3 6; 2 4 -3 2 0 3; -3 -6 2 0 3 9]
+		dump(A)
+		println(Text(A))
+		B=rref(A)
+		dump(round.(B))
+		println(Text(round.(B)))
+		
+		println("Using \\:")
+		A1=A[:, 1:5]
+		b1=A[:, 6]
+		x=A1 \ b1
+		dump(round.(x))
+		println(Text(round.(x)))
+		println(Text(round.(A1*x)))
+		
+		println("Using \\ with RREF:")
+		A2=B[:, 1:5]
+		b2=B[:, 6]
+		y=A2 \ b2
+		dump(round.(y))
+		println(Text(round.(y)))
+		println(Text(round.(A2*y)))
+	end
+end
+
+# ╔═╡ 5db63852-04ac-11eb-09e2-b3a09a28fe5a
+md"""
+## 單元 10．The Inverse of a Matrix
+"""
+
+# ╔═╡ 68240db4-04ac-11eb-3e83-819f3efb8c66
+md"""
+### Matrix Inversion
+"""
+
+# ╔═╡ 2ae45a8a-04b1-11eb-195e-1399a9b27328
+md"""
+$$\,
+\begin{bmatrix} A & I_3 \end{bmatrix}=
+\begin{bmatrix}
+\begin{array}{ccc|ccc}1 & 2 & 3 & 1 & 0 & 0 \\ 2 & 5 & 6 & 0 & 1 & 0\\ 3 & 4 & 8 & 0 & 0 & 1\end{array}
+\end{bmatrix}
+\rightarrow
+\begin{bmatrix}
+\begin{array}{ccc|ccc}1 & 0 & 0 & -16 & 4 & 3 \\ 0 & 1 & 0 & -2 & 1 & 0\\ 0 & 0 & 1 & 7 & -2 & -1\end{array}
+\end{bmatrix}
+=
+\begin{bmatrix} I_3 & B \end{bmatrix}
+\,$$
+"""
+
+# ╔═╡ 9642ea30-04ac-11eb-0a86-b7d63a7594d7
+let
+	with_terminal() do
+		AI=[ 1 2 3 1 0 0; 2 5 6 0 1 0; 3 4 8 0 0 1]
+		println(AI)
+		IB=round.(rref(AI))
+		println(IB)
+		C=IB[:, 4:6]
+		println(C)
+		D=round.(inv(AI[:, 1:3]))
+		println(D)
 	end
 end
 
@@ -576,16 +739,31 @@ md"""
 
 > [QuantEcon.cheatsheet/julia-cheatsheet.pdf](https://github.com/QuantEcon/QuantEcon.cheatsheet/blob/master/julia/julia-cheatsheet.pdf)
 
+[cheatsheets/plotsjl-cheatsheet.pdf]
+(https://github.com/sswatson/cheatsheets/blob/master/plotsjl-cheatsheet.pdf)
+
 [Unicode Input · The Julia Language]
 (https://docs.julialang.org/en/v1/manual/unicode-input/)
 
+[Visualizing Graphs in Julia using Plots and PlotRecipes – Tom Breloff]
+(http://www.breloff.com/Graphs/)
+
 ### Pluto
-[Docstrings · PlutoUI.jl](https://juliahub.com/docs/PlutoUI/abXFp/0.6.3/autodocs/)
+[fonsp/Pluto.jl: 🎈 Simple reactive notebooks for Julia]
+(https://github.com/fonsp/Pluto.jl)
+
+
+
+[Docstrings · PlutoUI.jl]
+(https://juliahub.com/docs/PlutoUI/abXFp/0.6.3/autodocs/)
 
 ### $$\LaTeX$$
 
 [LaTeX syntax · Documenter.jl]
 (https://juliadocs.github.io/Documenter.jl/v0.7/man/latex.html)
+
+[Documentation - Overleaf, Online LaTeX Editor]
+(https://www.overleaf.com/learn/latex/Main_Page)
 
 [LaTeX - Mathematical Python]
 (https://www.math.ubc.ca/~pwalls/math-python/jupyter/latex/)
@@ -614,9 +792,8 @@ md"""
 """
 
 # ╔═╡ Cell order:
-# ╠═9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
-# ╠═0053bace-00d4-11eb-1072-cbc1284550c5
-# ╟─55153d26-00d1-11eb-016d-9b1def7d4644
+# ╟─9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
+# ╟─0053bace-00d4-11eb-1072-cbc1284550c5
 # ╟─a40a1be4-ff9c-11ea-33d3-8bcf3b73e930
 # ╟─71136776-fff2-11ea-0eb6-47a04c1c77d6
 # ╟─a156894a-ffd4-11ea-1e22-29fb46b20097
@@ -660,10 +837,25 @@ md"""
 # ╠═408f674e-03d5-11eb-3dc8-ed1addf002be
 # ╠═73360416-03da-11eb-1721-cf76aa462151
 # ╠═ac04f844-03d8-11eb-2db2-dbc19b343325
-# ╠═19ea5d5c-03d9-11eb-085b-3d0a811bbc9d
 # ╟─8133c7e0-03d8-11eb-0697-afe2082ed481
 # ╠═82e1b674-03df-11eb-26e4-6f09a0a832d8
 # ╠═55de62fc-03e8-11eb-2ade-6500eacc11c8
+# ╟─69edd6d6-0469-11eb-1a3a-69b7f222541c
+# ╟─71418e5a-0469-11eb-1c3a-65f8e802284d
+# ╠═c95c00b4-046b-11eb-09e0-69068c23a0e0
+# ╟─a7edc48a-046e-11eb-2920-73dd6ab80b73
+# ╟─b6f85278-046e-11eb-25db-e71ea510fe6a
+# ╟─c42784e8-0483-11eb-2105-41108f06910e
+# ╠═6a0af07c-0482-11eb-287b-8d97045e4f36
+# ╟─7cadabce-0483-11eb-1a22-d7fcb40f6fe9
+# ╟─061630b8-0496-11eb-1646-137d406b7c37
+# ╟─d32ddc0a-0497-11eb-14e8-81331c56ebd8
+# ╟─5f220836-049a-11eb-389c-b75fa5bb21d7
+# ╠═86827bfe-049a-11eb-241c-cbbefed2bd08
+# ╟─5db63852-04ac-11eb-09e2-b3a09a28fe5a
+# ╟─68240db4-04ac-11eb-3e83-819f3efb8c66
+# ╟─2ae45a8a-04b1-11eb-195e-1399a9b27328
+# ╠═9642ea30-04ac-11eb-0a86-b7d63a7594d7
 # ╠═97f12ddc-00cf-11eb-173d-47a7931a9a08
 # ╟─7dbac3ec-00d1-11eb-2c17-3bab40ffaa2e
 # ╠═770ab5ac-fff8-11ea-1ed1-87b0ae3aca70
