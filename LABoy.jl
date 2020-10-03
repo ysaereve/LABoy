@@ -535,14 +535,18 @@ md"""
 ## 單元 7．Matrix Multiplication
 """
 
-# ╔═╡ 71418e5a-0469-11eb-1c3a-65f8e802284d
+# ╔═╡ 4e3a788a-04b5-11eb-3574-e53d1db76173
 md"""
 ### Matrix Multiplication
-$$Let\;v, x, y ∈ R^n. Suppose\;A\;and\;B\;are\;n × n\;matrices.$$
-$$x = Bv$$ 
-$$y = Ax$$
-$$\Downarrow$$
-$$y = Cv = A(Bv) = (AB)v$$
+$$\,
+\begin{align*}
+Let\;v, x, y &∈ R^n. Suppose\;A\;and\;B\;are\;n × n\;matrices. \\
+x &= Bv \\
+y &= Ax \\
+&\Downarrow\\
+y &= Cv = A(Bv) = (AB)v
+\end{align*}
+\,$$
 """
 
 # ╔═╡ c95c00b4-046b-11eb-09e0-69068c23a0e0
@@ -563,17 +567,29 @@ md"""
 # ╔═╡ b6f85278-046e-11eb-25db-e71ea510fe6a
 md"""
 ### Inverse
-An n × n matrix A is called invertible if there exists an n × n matrix B such
-that $$AB = BA = I_n$$. In this case, B is called an inverse of A.
+$$\,
+\begin{align*}
+&\text{An n × n matrix A is called invertible if there exists an n × n matrix B such
+that }\\
+\\
+&AB = BA = I_n.\\ 
+\\
+&\text{In this case, B is called an inverse of A.}
+\end{align*}
+\,$$
 """
 
 # ╔═╡ c42784e8-0483-11eb-2105-41108f06910e
+# use of & to state the alignment points.
+# Why does \\ not return a new line in an equation? - TeX - LaTeX Stack Exchange
+# https://tex.stackexchange.com/questions/194236/why-does-not-return-a-new-line-in-an-equation
 md"""
-$$\begin{matrix}
+$$\,
+\begin{matrix}
 \begin{align*}
-A=\begin{bmatrix} 1 & 2 \\ 3 & 5 \end{bmatrix} 
+A&=\begin{bmatrix} 1 & 2 \\ 3 & 5 \end{bmatrix} 
 \\
-B=\begin{bmatrix} -5 & 2 \\ 3 & -1 \end{bmatrix}
+B&=\begin{bmatrix} -5 & 2 \\ 3 & -1 \end{bmatrix}
 \end{align*}
 &
 \Rightarrow 
@@ -587,7 +603,8 @@ BA=
 \begin{bmatrix} -5 & 2 \\ 3 & -1 \end{bmatrix}
 \begin{bmatrix} 1 & 2 \\ 3 & 5 \end{bmatrix}=\begin{bmatrix} 1 & 0 \\ 0 & 1\end{bmatrix}=I_2
 \end{split}
-\end{matrix}$$
+\end{matrix}
+\,$$
 """
 
 # ╔═╡ 6a0af07c-0482-11eb-287b-8d97045e4f36
@@ -672,16 +689,16 @@ md"""
 # ╔═╡ 2ae45a8a-04b1-11eb-195e-1399a9b27328
 md"""
 $$\,
-\begin{bmatrix} A & I_3 \end{bmatrix}=
+\begin{bmatrix} \color{blue}{A} & I_3 \end{bmatrix}=
 \begin{bmatrix}
-\begin{array}{ccc|ccc}1 & 2 & 3 & 1 & 0 & 0 \\ 2 & 5 & 6 & 0 & 1 & 0\\ 3 & 4 & 8 & 0 & 0 & 1\end{array}
+\begin{array}{ccc|ccc}1 & 2 & 3 & \color{red}{1} & 0 & 0 \\ 2 & 5 & 6 & 0 & \color{red}{1} & 0\\ 3 & 4 & 8 & 0 & 0 & \color{red}{1}\end{array}
 \end{bmatrix}
 \rightarrow
 \begin{bmatrix}
-\begin{array}{ccc|ccc}1 & 0 & 0 & -16 & 4 & 3 \\ 0 & 1 & 0 & -2 & 1 & 0\\ 0 & 0 & 1 & 7 & -2 & -1\end{array}
+\begin{array}{ccc|ccc}\color{red}{1} & 0 & 0 & -16 & 4 & 3 \\ 0 & \color{red}{1} & 0 & -2 & 1 & 0\\ 0 & 0 & \color{red}{1} & 7 & -2 & -1\end{array}
 \end{bmatrix}
 =
-\begin{bmatrix} I_3 & B \end{bmatrix}
+\begin{bmatrix} I_3 & \color{blue}{B}\end{bmatrix}
 \,$$
 """
 
@@ -702,6 +719,109 @@ end
 # ╔═╡ 97f12ddc-00cf-11eb-173d-47a7931a9a08
 md"""
 ### <<<
+"""
+
+# ╔═╡ e4b8f094-04c8-11eb-3bf7-93bd85db2dc9
+md"""
+## 附錄：$$\LaTeX$$ 遊樂場/Playground
+"""
+
+# ╔═╡ 5897b63a-04c9-11eb-34ab-b908c731d3d5
+#=
+\begin{equation*}
+multline, gather, align, aligned[t|b|c], alignat{9}, align*, split
+\end{equation*}
+=#
+md"""
+實作參考：
+
+[User’s Guide for the amsmath Package]
+(https://www.latex-project.org/help/documentation/amsldoc.pdf)
+
+$$\,
+\begin{multline}
+a+b+c+d+e+f\\
++i+j+k+l+m+n
+\end{multline}
+$$$$
+\begin{gather}
+a_1=b_1+c_1\\
+a_2=b_2+c_2-d_2+e_2
+\end{gather}
+$$$$
+\begin{align}
+a_1& =b_1+c_1\\
+a_2& =b_2+c_2-d_2+e_2
+\end{align}
+$$$$
+\left.
+\begin{aligned}[b]
+&{\color{red} \text{Text in red}} \\
+&{\color{blue} \text{Text in blue}}\\
+&\text{Text with equation $a_{11}, a_{12},\dots$}\\
+&A=πr^2\\
+&c^2=a^2+b^2\\
+&x
+\end{aligned}
+\big\}\quad\text{The formula}
+\Bigg( 1+2 \Bigg]
+F = G \left( \frac{m_1 m_2}{r^2} \right)
+\right\} \text{This is it!}
+$$$$
+\begin{align}
+x&=y & X&=Y & a&=b+c\\
+x’&=y’ & X’&=Y’ & a’&=b\\
+x+x’&=y+y’ & X+X’&=Y+Y’ & a’b&=c’b
+\end{align}
+$$$$
+\begin{alignat}{2}
+x& = y_1-y_2+y_3-y_5+y_8-\dots
+&\quad& \text{by \eqref{eq:C}}\\
+& = y’\circ y^* && \text{by \eqref{eq:D}}\\
+& = y(0) y’ && \text {by Axiom 1.}
+\end{alignat}
+$$$$
+\left.\begin{aligned}
+B’&=-\partial\times E,\\
+E’&=\partial\times B - 4\pi j,
+\end{aligned}
+\right\}
+\qquad \text{Maxwell’s equations}
+$$$$
+P_{r-j}=\begin{cases}
+0& \text{if $r-j$ is odd},\\
+r!\,(-1)^{(r-j)/2}& \text{if $r-j$ is even}.
+\end{cases}
+\,$$
+"""
+
+# ╔═╡ 51c9222c-0518-11eb-3827-8fcf8a59b0fd
+md"""
+## 附錄：Markdown 遊樂場/Playground
+"""
+
+# ╔═╡ 602f56ce-0518-11eb-27d3-7fde99127b36
+md"""
+實作參考：
+
+[Markdown · The Julia Language]
+(https://docs.julialang.org/en/v1/stdlib/Markdown/)
+
+```math
+f(a) = \frac{1}{2\pi}\int_{0}^{2\pi} (\alpha+R\cos(\theta))d\theta
+```
+
+A paragraph containing some ``\LaTeX`` markup.
+```
+Ax=b
+```
+```math
+Ax=b
+```
+Some Markdown text with <span style="color:blue">some *blue* text</span>.
+
+註：[How to apply color in Markdown? - Stack Overflow]
+(https://stackoverflow.com/questions/35465557/how-to-apply-color-in-markdown)
 """
 
 # ╔═╡ 7dbac3ec-00d1-11eb-2c17-3bab40ffaa2e
@@ -752,12 +872,16 @@ md"""
 [fonsp/Pluto.jl: 🎈 Simple reactive notebooks for Julia]
 (https://github.com/fonsp/Pluto.jl)
 
-
-
 [Docstrings · PlutoUI.jl]
 (https://juliahub.com/docs/PlutoUI/abXFp/0.6.3/autodocs/)
 
 ### $$\LaTeX$$
+
+[LaTeX Documentation]
+(https://www.latex-project.org/help/documentation/)
+
+[User’s Guide for the amsmath Package]
+(https://www.latex-project.org/help/documentation/amsldoc.pdf)
 
 [LaTeX syntax · Documenter.jl]
 (https://juliadocs.github.io/Documenter.jl/v0.7/man/latex.html)
@@ -792,7 +916,7 @@ md"""
 """
 
 # ╔═╡ Cell order:
-# ╟─9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
+# ╠═9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
 # ╟─0053bace-00d4-11eb-1072-cbc1284550c5
 # ╟─a40a1be4-ff9c-11ea-33d3-8bcf3b73e930
 # ╟─71136776-fff2-11ea-0eb6-47a04c1c77d6
@@ -841,7 +965,7 @@ md"""
 # ╠═82e1b674-03df-11eb-26e4-6f09a0a832d8
 # ╠═55de62fc-03e8-11eb-2ade-6500eacc11c8
 # ╟─69edd6d6-0469-11eb-1a3a-69b7f222541c
-# ╟─71418e5a-0469-11eb-1c3a-65f8e802284d
+# ╠═4e3a788a-04b5-11eb-3574-e53d1db76173
 # ╠═c95c00b4-046b-11eb-09e0-69068c23a0e0
 # ╟─a7edc48a-046e-11eb-2920-73dd6ab80b73
 # ╟─b6f85278-046e-11eb-25db-e71ea510fe6a
@@ -857,5 +981,9 @@ md"""
 # ╟─2ae45a8a-04b1-11eb-195e-1399a9b27328
 # ╠═9642ea30-04ac-11eb-0a86-b7d63a7594d7
 # ╠═97f12ddc-00cf-11eb-173d-47a7931a9a08
+# ╟─e4b8f094-04c8-11eb-3bf7-93bd85db2dc9
+# ╠═5897b63a-04c9-11eb-34ab-b908c731d3d5
+# ╟─51c9222c-0518-11eb-3827-8fcf8a59b0fd
+# ╠═602f56ce-0518-11eb-27d3-7fde99127b36
 # ╟─7dbac3ec-00d1-11eb-2c17-3bab40ffaa2e
 # ╠═770ab5ac-fff8-11ea-1ed1-87b0ae3aca70
