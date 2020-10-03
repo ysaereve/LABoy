@@ -24,6 +24,5 @@ docs/site/
 Manifest.toml
 
 # Others
-.gitignore
 .DS_Store
 Bugs
