@@ -23,18 +23,26 @@ begin
 	# using LinearAlgebra # Most of them are in Base
 	using RowEchelon # 單元 9．Column Correspondence Theorem
 
-	_date_=today()
-	html"""
-	<hr>
+	_date_ = today()
+	_time_ = Dates.format(now(), "HH:MM") 
+	md"""
+	## 環境配置
+	今日： $(_date_) \
+	此時： $(_time_) \
 	"""
 end
+#=
+Space before $ does matter ... _O_
+[Line breaks in markdown]
+(https://gist.github.com/shaunlebron/746476e6e7a4d698b373)
+=#
 
 # ╔═╡ 9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
 md"""
 # 線性代數 + Julia + $$\LaTeX$$ 的學習筆記 
-Date: $_date_
+版本日期：$_date_
 
-整個學習過程將以如下「線性代數」課程為主軸學習：
+整個學習過程將以如下「線性代數」課程為主軸：
 
 ### 線性代數 台灣大學電機系 蘇柏青
 
@@ -46,7 +54,7 @@ Date: $_date_
 如下為幾個學習的子目標：
 
 ### 學科
-- 線性代數 - 重新學習線性代數，了解重要概念的中文及英文詞𢑥及應用。
+- 線性代數 - 重新學習，了解重要概念的中文及英文詞𢑥及應用。
 
 ### 工具
 
@@ -56,7 +64,7 @@ Date: $_date_
 - Markdown - 隨緣學習，作為撰寫學習記錄的工具。
 
 ### 服務
-- GitHub - 學習使用 GitHub 服務，並記錄學習歷程及分享學習內容。
+- GitHub - 隨緣學習，用來記錄整個學習歷程及分享學習內容。
 """
 
 # ╔═╡ a40a1be4-ff9c-11ea-33d3-8bcf3b73e930
@@ -721,6 +729,63 @@ md"""
 ### <<<
 """
 
+# ╔═╡ 4a9f304c-0543-11eb-3b96-5fb9fb043444
+md"""
+## 附錄：Pluto 遊樂場/Playground
+"""
+
+# ╔═╡ c13b4d10-0545-11eb-178c-9fbfe174d4a6
+md"""
+### 注意 \$\$ 及 \$
+"""
+
+# ╔═╡ 5367d0b2-0543-11eb-3810-b31a6e903242
+let
+	x=1
+	y=2
+	z=3
+	md"""
+	#### No space before $
+	x:$x \ 
+	y:$y \
+	z:$z
+	"""
+end
+
+# ╔═╡ 1e622640-0545-11eb-20fc-29bed94aac0c
+let
+	x=1
+	y=2
+	z=3
+	md"""
+	#### With space before $
+	x: $x \
+	y: $y \
+	z: $z
+	"""
+end
+
+# ╔═╡ b3f4edae-054b-11eb-02b5-199ce15d9620
+let
+	_test_ = "x^2"
+	# 在表格中沒有變數替換，有公式替換
+	md"""
+	## 測試 \$\$ 及 \$ 混用
+	|變數|數值|
+	|:---|:---|
+	|今日| $(_date_) |
+	|其他| $(_date_) |
+	|函數| $$x^3$$ $(_test_)  |
+	"""
+	# 只好用這個版本，先公式替換然後變數替換
+	md"""
+	## 測試 \$\$ 及 \$ 混用
+	今日： $(_date_) \
+	其他： $(_date_) \
+	函數： $$x^3$$ $(_test_)  
+	"""
+end
+
 # ╔═╡ e4b8f094-04c8-11eb-3bf7-93bd85db2dc9
 md"""
 ## 附錄：$$\LaTeX$$ 遊樂場/Playground
@@ -915,8 +980,16 @@ md"""
 (https://www.3du.tw/term/)
 """
 
+# ╔═╡ b5016eda-0522-11eb-1d8b-37135a22c7bf
+md"""
+## 感謝建議
+"""
+
+# ╔═╡ e9001c9a-0522-11eb-0d63-f718249e03ec
+
+
 # ╔═╡ Cell order:
-# ╠═9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
+# ╟─9d9a54ea-ff9c-11ea-1db7-1ba194b9fb3c
 # ╟─0053bace-00d4-11eb-1072-cbc1284550c5
 # ╟─a40a1be4-ff9c-11ea-33d3-8bcf3b73e930
 # ╟─71136776-fff2-11ea-0eb6-47a04c1c77d6
@@ -937,7 +1010,7 @@ md"""
 # ╠═c497553e-fffb-11ea-3559-e59103e843e2
 # ╟─aff2680a-fffe-11ea-0494-1d349105eff0
 # ╟─42f11192-ffff-11ea-34ca-81545f4b5374
-# ╠═988b781e-026f-11eb-02b7-8d2de841d478
+# ╟─988b781e-026f-11eb-02b7-8d2de841d478
 # ╠═cb2c5e54-ffff-11ea-3e4e-a349d0a09341
 # ╟─67ed416e-00d1-11eb-29cc-23eaa30c3446
 # ╟─afcd29d0-ff9c-11ea-09bf-e5a0ed087c42
@@ -973,7 +1046,7 @@ md"""
 # ╠═6a0af07c-0482-11eb-287b-8d97045e4f36
 # ╟─7cadabce-0483-11eb-1a22-d7fcb40f6fe9
 # ╟─061630b8-0496-11eb-1646-137d406b7c37
-# ╟─d32ddc0a-0497-11eb-14e8-81331c56ebd8
+# ╠═d32ddc0a-0497-11eb-14e8-81331c56ebd8
 # ╟─5f220836-049a-11eb-389c-b75fa5bb21d7
 # ╠═86827bfe-049a-11eb-241c-cbbefed2bd08
 # ╟─5db63852-04ac-11eb-09e2-b3a09a28fe5a
@@ -981,9 +1054,16 @@ md"""
 # ╟─2ae45a8a-04b1-11eb-195e-1399a9b27328
 # ╠═9642ea30-04ac-11eb-0a86-b7d63a7594d7
 # ╠═97f12ddc-00cf-11eb-173d-47a7931a9a08
+# ╠═4a9f304c-0543-11eb-3b96-5fb9fb043444
+# ╟─c13b4d10-0545-11eb-178c-9fbfe174d4a6
+# ╠═5367d0b2-0543-11eb-3810-b31a6e903242
+# ╠═1e622640-0545-11eb-20fc-29bed94aac0c
+# ╠═b3f4edae-054b-11eb-02b5-199ce15d9620
 # ╟─e4b8f094-04c8-11eb-3bf7-93bd85db2dc9
 # ╠═5897b63a-04c9-11eb-34ab-b908c731d3d5
 # ╟─51c9222c-0518-11eb-3827-8fcf8a59b0fd
 # ╠═602f56ce-0518-11eb-27d3-7fde99127b36
 # ╟─7dbac3ec-00d1-11eb-2c17-3bab40ffaa2e
 # ╠═770ab5ac-fff8-11ea-1ed1-87b0ae3aca70
+# ╟─b5016eda-0522-11eb-1d8b-37135a22c7bf
+# ╠═e9001c9a-0522-11eb-0d63-f718249e03ec
